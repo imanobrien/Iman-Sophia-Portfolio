@@ -462,42 +462,42 @@
 
     <div class="project-grid">
       <div class="project-card" onclick="openProject('goldstore')">
-        <img src="graphic-design/goldstore/page-01.jpg" alt="Goldstore Collection" />
+        <img src="graphic-design%202/goldstore/page-01.jpg" alt="Goldstore Collection" />
         <div class="card-label">
           <span class="card-title">Goldstore Collection</span>
           <span class="card-year">Lookbook</span>
         </div>
       </div>
       <div class="project-card" onclick="openGdImage('reign-invite','Reign Invite')">
-        <img src="graphic-design/invites/reign-invite.jpg" alt="Reign Invite" />
+        <img src="graphic-design%202/invites/reign-invite.jpg" alt="Reign Invite" />
         <div class="card-label"><span class="card-title">Reign Invite</span></div>
       </div>
       <div class="project-card" onclick="openGdImage('shahada-ishaq-wedding','Shahada & Ishaq Wedding')">
-        <img src="graphic-design/invites/shahada-ishaq-wedding.jpg" alt="Shahada & Ishaq Wedding Invite" />
+        <img src="graphic-design%202/invites/shahada-ishaq-wedding.jpg" alt="Shahada & Ishaq Wedding Invite" />
         <div class="card-label"><span class="card-title">Shahada &amp; Ishaq Wedding</span></div>
       </div>
       <div class="project-card" onclick="openGdImage('70th-birthday','70th Birthday')">
-        <img src="graphic-design/invites/70th-birthday.jpg" alt="70th Birthday Invite" />
+        <img src="graphic-design%202/invites/70th-birthday.jpg" alt="70th Birthday Invite" />
         <div class="card-label"><span class="card-title">70th Birthday</span></div>
       </div>
       <div class="project-card" onclick="openGdImage('hanims-birthday','Hanim\u0027s Birthday')">
-        <img src="graphic-design/invites/hanims-birthday.jpg" alt="Hanim's Birthday Invite" />
+        <img src="graphic-design%202/invites/hanims-birthday.jpg" alt="Hanim's Birthday Invite" />
         <div class="card-label"><span class="card-title">Hanim's Birthday</span></div>
       </div>
       <div class="project-card" onclick="openGdImage('iman-nadia-birthday','Iman &amp; Nadia Birthday')">
-        <img src="graphic-design/invites/iman-nadia-birthday.jpg" alt="Iman & Nadia Birthday Invite" />
+        <img src="graphic-design%202/invites/iman-nadia-birthday.jpg" alt="Iman & Nadia Birthday Invite" />
         <div class="card-label"><span class="card-title">Iman &amp; Nadia Birthday</span></div>
       </div>
       <div class="project-card" onclick="openGdImage('birthday-invite','Birthday Invite')">
-        <img src="graphic-design/invites/birthday-invite.jpg" alt="Birthday Invite" />
+        <img src="graphic-design%202/invites/birthday-invite.jpg" alt="Birthday Invite" />
         <div class="card-label"><span class="card-title">Birthday Invite</span></div>
       </div>
       <div class="project-card" onclick="openGdImage('fish-braai','Fish Braai')">
-        <img src="graphic-design/invites/fish-braai.jpg" alt="Fish Braai" />
+        <img src="graphic-design%202/invites/fish-braai.jpg" alt="Fish Braai" />
         <div class="card-label"><span class="card-title">Fish Braai</span></div>
       </div>
       <div class="project-card" onclick="openGdImage('print-1','Print','png')">
-        <img src="graphic-design/invites/print-1.png" alt="Print" />
+        <img src="graphic-design%202/invites/print-1.png" alt="Print" />
         <div class="card-label"><span class="card-title">Print</span></div>
       </div>
     </div>
@@ -1743,7 +1743,7 @@
       <p class="project-desc">A 17-page collection lookbook — layout, art direction and visual identity. All drawings and moodboards are my own work.</p>
     </div>
     <div class="flipbook-wrap">
-      <img id="gold-img" src="graphic-design/goldstore/page-01.jpg" alt="Goldstore lookbook page" style="aspect-ratio:auto;max-height:680px;" />
+      <img id="gold-img" src="graphic-design%202/goldstore/page-01.jpg" alt="Goldstore lookbook page" style="aspect-ratio:auto;max-height:680px;" />
       <div class="flipbook-controls">
         <button id="gold-prev" class="flip-btn" onclick="goldGo(-1)" style="opacity:0.25;">← Prev</button>
         <span id="gold-counter" class="flip-counter">1 / 17</span>
@@ -1772,7 +1772,7 @@
 </div>
 
 <script>
-  const goldPages = ['graphic-design/goldstore/page-01.jpg','graphic-design/goldstore/page-02.jpg','graphic-design/goldstore/page-03.jpg','graphic-design/goldstore/page-04.jpg','graphic-design/goldstore/page-05.jpg','graphic-design/goldstore/page-06.jpg','graphic-design/goldstore/page-07.jpg','graphic-design/goldstore/page-08.jpg','graphic-design/goldstore/page-09.jpg','graphic-design/goldstore/page-10.jpg','graphic-design/goldstore/page-11.jpg','graphic-design/goldstore/page-12.jpg','graphic-design/goldstore/page-13.jpg','graphic-design/goldstore/page-14.jpg','graphic-design/goldstore/page-15.jpg','graphic-design/goldstore/page-16.jpg','graphic-design/goldstore/page-17.jpg'];
+  const goldPages = ['graphic-design%202/goldstore/page-01.jpg','graphic-design%202/goldstore/page-02.jpg','graphic-design%202/goldstore/page-03.jpg','graphic-design%202/goldstore/page-04.jpg','graphic-design%202/goldstore/page-05.jpg','graphic-design%202/goldstore/page-06.jpg','graphic-design%202/goldstore/page-07.jpg','graphic-design%202/goldstore/page-08.jpg','graphic-design%202/goldstore/page-09.jpg','graphic-design%202/goldstore/page-10.jpg','graphic-design%202/goldstore/page-11.jpg','graphic-design%202/goldstore/page-12.jpg','graphic-design%202/goldstore/page-13.jpg','graphic-design%202/goldstore/page-14.jpg','graphic-design%202/goldstore/page-15.jpg','graphic-design%202/goldstore/page-16.jpg','graphic-design%202/goldstore/page-17.jpg'];
   let goldCurrent = 0;
   function goldGo(dir) {
     goldCurrent = Math.max(0, Math.min(goldPages.length - 1, goldCurrent + dir));
@@ -1788,7 +1788,7 @@
   });
   function openGdImage(name, title, ext) {
     ext = ext || 'jpg';
-    document.getElementById('gd-single-img').src = 'graphic-design/invites/' + name + '.' + ext;
+    document.getElementById('gd-single-img').src = 'graphic-design%202/invites/' + name + '.' + ext;
     document.getElementById('gd-overlay-title').textContent = title;
     document.getElementById('gd-img-heading').innerHTML = title;
     openProject('gdimage');
