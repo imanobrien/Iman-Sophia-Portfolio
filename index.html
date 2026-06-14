@@ -785,11 +785,33 @@
   function openProject(id) {
     document.getElementById('project-' + id).classList.add('open');
     window.scrollTo(0, 0);
+    // Push a history entry so the browser Back button and the trackpad
+    // swipe-right gesture both return to the work grid instead of leaving the site.
+    history.pushState({ project: id }, '', '#' + id);
   }
-  function closeProject() {
+  // Closes any open project. When called by the user (e.g. the "Back to work"
+  // button) we step back through history so the URL/hash stays in sync.
+  function closeProject(fromPopState) {
+    var anyOpen = document.querySelector('.project-overlay.open');
     document.querySelectorAll('.project-overlay').forEach(o => o.classList.remove('open'));
     window.scrollTo(0, 0);
+    if (!fromPopState && anyOpen) {
+      history.back();
+    }
   }
+  // Fires on browser Back, Forward, AND the two-finger swipe-back gesture.
+  window.addEventListener('popstate', function () {
+    if (document.querySelector('.project-overlay.open')) {
+      closeProject(true);
+    }
+  });
+  // If someone lands on a deep link like .../#akar, open that project.
+  window.addEventListener('DOMContentLoaded', function () {
+    var id = location.hash.replace('#', '');
+    if (id && document.getElementById('project-' + id)) {
+      document.getElementById('project-' + id).classList.add('open');
+    }
+  });
 </script>
 </body>
 </html>
