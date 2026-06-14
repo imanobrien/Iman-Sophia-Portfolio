@@ -1,0 +1,1665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Iman Sophia O'Brien</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet" />
+  <style>
+    /* ── TOKENS ── */
+    :root {
+      --bg:        #E8E4DC;
+      --bg-card:   #DDD9D0;
+      --ink:       #1E1A16;
+      --ink-mid:   #6B6558;
+      --ink-light: #A89E92;
+      --accent:    #7A4030;
+      --sage:      #5C6E58;
+      --slate:     #7A9098;
+      --rule:      #CAC4B8;
+      --mono:      'Space Mono', monospace;
+      --serif:     'Cormorant Garamond', serif;
+    }
+
+    /* ── RESET ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--mono);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+
+    /* ── LAYOUT ── */
+    .site { display: flex; flex-direction: column; min-height: 100vh; }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.5rem 3rem;
+      background: var(--bg);
+      border-bottom: 1px solid var(--rule);
+    }
+    .nav-name {
+      font-family: var(--mono);
+      font-size: 0.95rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--ink);
+    }
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+    .nav-links a {
+      font-family: var(--mono);
+      font-size: 0.82rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ink-mid);
+      transition: color 0.2s;
+      padding-bottom: 2px;
+      border-bottom: 1px solid transparent;
+    }
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--ink);
+      border-bottom-color: var(--ink);
+    }
+
+    /* ── VIEWS ── */
+    .view {
+      display: none;
+      padding-top: 5.5rem;
+      min-height: 100vh;
+    }
+    .view.active { display: block; }
+
+    /* ══════════════════════════
+       WORK VIEW
+    ══════════════════════════ */
+    .work-hero {
+      padding: 5rem 3rem 3.5rem;
+      max-width: 680px;
+    }
+    .work-hero h1 {
+      font-family: var(--serif);
+      font-size: clamp(2.6rem, 5vw, 4rem);
+      font-weight: 300;
+      font-style: italic;
+      line-height: 1.15;
+      margin-bottom: 1.4rem;
+      color: var(--ink);
+    }
+    .work-hero p {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      line-height: 1.9;
+      color: var(--ink-mid);
+      max-width: 520px;
+    }
+
+    /* project grid */
+    .project-grid {
+      padding: 0 3rem 6rem;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5px;
+      border-top: 1px solid var(--rule);
+      margin-top: 3rem;
+    }
+    .project-card {
+      position: relative;
+      overflow: hidden;
+      aspect-ratio: 3/4;
+      background: var(--bg-card);
+      cursor: pointer;
+    }
+    .project-card img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94), filter 0.6s;
+      filter: grayscale(20%);
+    }
+    .project-card:hover img {
+      transform: scale(1.04);
+      filter: grayscale(0%);
+    }
+    .card-label {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 2rem 1.2rem 1.2rem;
+      background: linear-gradient(transparent, rgba(28,26,23,0.72));
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .project-card:hover .card-label { opacity: 1; }
+    .card-title {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #F7F4EF;
+    }
+    .card-year {
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      color: rgba(247,244,239,0.65);
+    }
+    /* placeholder card */
+    .project-card.placeholder {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px dashed var(--rule);
+      background: transparent;
+      cursor: default;
+    }
+    .project-card.placeholder span {
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.12em;
+      color: var(--ink-light);
+      text-transform: uppercase;
+    }
+
+    /* ══════════════════════════
+       CV VIEW
+    ══════════════════════════ */
+    .cv-wrap {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 4rem 3rem 6rem;
+    }
+    .cv-top {
+      border-bottom: 1px solid var(--rule);
+      padding-bottom: 2.5rem;
+      margin-bottom: 3rem;
+    }
+    .cv-top h1 {
+      font-family: var(--serif);
+      font-size: clamp(2.2rem, 4vw, 3.2rem);
+      font-weight: 300;
+      font-style: italic;
+      margin-bottom: 0.4rem;
+    }
+    .cv-top .subtitle {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--ink-mid);
+    }
+    .cv-cols {
+      display: grid;
+      grid-template-columns: 1fr 1.8fr;
+      gap: 4rem;
+    }
+    .cv-section { margin-bottom: 2.8rem; }
+    .cv-section-label {
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      margin-bottom: 1.2rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--rule);
+    }
+    .cv-entry { margin-bottom: 1.6rem; }
+    .cv-entry .role {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      color: var(--ink);
+      margin-bottom: 0.2rem;
+    }
+    .cv-entry .meta {
+      font-family: var(--mono);
+      font-size: 0.62rem;
+      color: var(--ink-mid);
+      letter-spacing: 0.06em;
+      margin-bottom: 0.5rem;
+    }
+    .cv-entry .desc {
+      font-family: var(--serif);
+      font-size: 0.95rem;
+      line-height: 1.75;
+      color: var(--ink-mid);
+      font-weight: 300;
+    }
+    .skills-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .skill-tag {
+      font-family: var(--mono);
+      font-size: 0.58rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-mid);
+      border: 1px solid var(--rule);
+      padding: 0.3rem 0.7rem;
+    }
+    .lang-list {
+      list-style: none;
+    }
+    .lang-list li {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      color: var(--ink-mid);
+      padding: 0.4rem 0;
+      border-bottom: 1px solid var(--rule);
+    }
+    .lang-list li:last-child { border-bottom: none; }
+
+    /* ══════════════════════════
+       CONTACT VIEW
+    ══════════════════════════ */
+    .contact-wrap {
+      max-width: 1150px;
+      padding: 5rem 3rem 6rem;
+      display: grid;
+      grid-template-columns: 1fr 0.85fr;
+      gap: 4rem;
+      align-items: center;
+    }
+    .contact-text { min-width: 0; }
+    .contact-photo {
+      align-self: stretch;
+      display: flex;
+      align-items: flex-start;
+    }
+    .contact-photo img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border: 1px solid var(--rule);
+      filter: grayscale(100%);
+    }
+    .contact-wrap h1 {
+      font-family: var(--serif);
+      font-size: clamp(2.6rem, 5vw, 4rem);
+      font-weight: 300;
+      font-style: italic;
+      line-height: 1.15;
+      margin-bottom: 1.2rem;
+    }
+    .contact-lede {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      line-height: 1.9;
+      color: var(--ink-mid);
+      margin-bottom: 3.5rem;
+    }
+    .contact-links { display: flex; flex-direction: column; gap: 0; }
+    .c-link {
+      display: flex;
+      align-items: baseline;
+      gap: 2rem;
+      padding: 1.1rem 0;
+      border-top: 1px solid var(--rule);
+      transition: padding-left 0.25s;
+    }
+    .contact-links .c-link:last-child { border-bottom: 1px solid var(--rule); }
+    .c-link:hover { padding-left: 0.5rem; }
+    .c-label {
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      width: 80px;
+      flex-shrink: 0;
+    }
+    .c-val {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--ink);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      margin-top: auto;
+      padding: 1.5rem 3rem;
+      border-top: 1px solid var(--rule);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    footer span {
+      font-family: var(--mono);
+      font-size: 0.58rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+    }
+
+    /* ── MOBILE ── */
+    @media (max-width: 680px) {
+      nav { padding: 1.2rem 1.5rem; }
+      .nav-name { display: none; }
+      .nav-links { gap: 1.5rem; }
+      .work-hero, .contact-wrap { padding: 3rem 1.5rem 2.5rem; }
+      .contact-wrap { grid-template-columns: 1fr; gap: 2.5rem; }
+      .contact-photo { max-width: 360px; }
+      .project-grid { padding: 0 0 4rem; grid-template-columns: 1fr 1fr; }
+      .cv-wrap { padding: 2.5rem 1.5rem 4rem; }
+      .cv-cols { grid-template-columns: 1fr; gap: 0; }
+      footer { padding: 1.2rem 1.5rem; flex-direction: column; gap: 0.4rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+<div class="site">
+
+  <!-- NAV -->
+  <nav>
+    <span class="nav-name">Iman Sophia O'Brien</span>
+    <ul class="nav-links">
+      <li><a href="#" id="nav-work" class="active" onclick="return show('work')">Work</a></li>
+      <li><a href="#" id="nav-graphic" onclick="return show('graphic')">Graphic Design</a></li>
+      <li><a href="#" id="nav-cv" onclick="return show('cv')">CV</a></li>
+      <li><a href="#" id="nav-contact" onclick="return show('contact')">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- ══ WORK ══ -->
+  <div id="view-work" class="view active">
+    <div class="work-hero">
+      <h1>Design is how<br>I tell a story.</h1>
+      <p>I am a driven and creatively inclined individual with a passion for design and a keen eye for detail. Experienced in various aspects of fashion — from styling and material research to CAD illustration and creative direction. Based in Cape Town.</p>
+    </div>
+
+    <div class="project-grid">
+      <div class="project-card" onclick="openProject('equanimity')">
+        <img src="images/covers/equanimity.jpg" alt="Equanimity installation" />
+        <div class="card-label">
+          <span class="card-title">Equanimity</span>
+          <span class="card-year">2020</span>
+        </div>
+      </div>
+      <div class="project-card" onclick="openProject('akar')">
+        <img src="images/covers/akar.jpg" alt="Akar Graduate Collection" />
+        <div class="card-label">
+          <span class="card-title">Akar</span>
+          <span class="card-year">2023</span>
+        </div>
+      </div>
+      <div class="project-card" onclick="openProject('iman-sophia-brand')">
+        <img src="images/covers/iman-sophia-brand.jpg" alt="Iman Sophia Brand" />
+        <div class="card-label">
+          <span class="card-title">Iman Sophia Brand</span>
+          <span class="card-year">2023</span>
+        </div>
+      </div>
+      <div class="project-card" onclick="openProject('louise-steyler')">
+        <img src="images/covers/louise-steyler.jpg" alt="Louise Steyler — Meet the Wellingtons" />
+        <div class="card-label">
+          <span class="card-title">Meet the Wellingtons</span>
+          <span class="card-year">2023</span>
+        </div>
+      </div>
+      <div class="project-card" onclick="openProject('sa-bullion')">
+        <img src="images/covers/sa-bullion.jpg" alt="SA Bullion Corporate Shoot" />
+        <div class="card-label">
+          <span class="card-title">SA Bullion</span>
+          <span class="card-year">2024</span>
+        </div>
+      </div>
+      <div class="project-card" onclick="openProject('cool-workwear')">
+        <img src="images/covers/cool-workwear.jpg" alt="Cool Workwear — Yacht Uniforms" />
+        <div class="card-label">
+          <span class="card-title">Cool Workwear</span>
+          <span class="card-year">2025</span>
+        </div>
+      </div>
+      <div class="project-card" onclick="openProject('mami-wata')">
+        <img src="images/covers/mami-wata.jpg" alt="Mami Wata — AW26" />
+        <div class="card-label">
+          <span class="card-title">Mami Wata</span>
+          <span class="card-year">2026</span>
+        </div>
+      </div>
+      <div class="project-card" onclick="openProject('nima')">
+        <img src="images/covers/nima.jpg" alt="Nima — Styling & Homeware" />
+        <div class="card-label">
+          <span class="card-title">Nima</span>
+          <span class="card-year">2026</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ GRAPHIC DESIGN ══ -->
+  <div id="view-graphic" class="view">
+    <div class="work-hero">
+      <h1>Graphic<br>Design.</h1>
+      <p>Branding, layout, illustration and visual identity work — a selection of graphic design projects.</p>
+    </div>
+    <div class="project-grid" id="graphic-grid">
+      <div class="project-card placeholder">
+        <span>More graphic design work coming soon</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ CV ══ -->
+  <div id="view-cv" class="view">
+    <div class="cv-wrap">
+      <div class="cv-top">
+        <h1>Iman Sophia O'Brien</h1>
+        <p class="subtitle">Fashion Designer — Cape Town, South Africa</p>
+      </div>
+
+      <div class="cv-cols">
+
+        <!-- LEFT -->
+        <div>
+
+          <div class="cv-section">
+            <p class="cv-section-label">Education</p>
+            <div class="cv-entry">
+              <p class="role">Fashion Design</p>
+              <p class="meta">Design Academy of Fashion — 2021–2023</p>
+            </div>
+            <div class="cv-entry">
+              <p class="role">High School</p>
+              <p class="meta">Abbotts College — 2017–2019</p>
+            </div>
+            <div class="cv-entry">
+              <p class="role">Spanish Course</p>
+              <p class="meta">Sevilla Habla — 2020</p>
+            </div>
+          </div>
+
+          <div class="cv-section">
+            <p class="cv-section-label">Skills</p>
+            <div class="skills-grid">
+              <span class="skill-tag">Styling</span>
+              <span class="skill-tag">Illustration</span>
+              <span class="skill-tag">CAD Design</span>
+              <span class="skill-tag">Sewing</span>
+              <span class="skill-tag">Technical Drawing</span>
+              <span class="skill-tag">Material Research</span>
+              <span class="skill-tag">Administration</span>
+              <span class="skill-tag">Communication</span>
+            </div>
+          </div>
+
+          <div class="cv-section">
+            <p class="cv-section-label">Languages</p>
+            <ul class="lang-list">
+              <li>English</li>
+              <li>Afrikaans</li>
+              <li>Spanish — Entry Level</li>
+            </ul>
+          </div>
+
+          <div class="cv-section">
+            <p class="cv-section-label">Contact</p>
+            <div class="cv-entry">
+              <p class="desc">imanobrien@gmail.com<br>+27 78 023 6356<br>Cape Town, ZA</p>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- RIGHT -->
+        <div>
+
+          <div class="cv-section">
+            <p class="cv-section-label">Experience</p>
+
+            <div class="cv-entry">
+              <p class="role">Mami Wata</p>
+              <p class="meta">Product Development — 2025–2026</p>
+              <p class="desc">Worked closely with Zihaad Wells in the product development team, contributing to technical pack creation, assisting with Autumn/Winter collection trends and colour direction, and producing CAD drawings.</p>
+            </div>
+
+            <div class="cv-entry">
+              <p class="role">Cool Work Wear</p>
+              <p class="meta">Freelance — 2025</p>
+              <p class="desc">Technical packs, pattern development and garment sizing.</p>
+            </div>
+
+            <div class="cv-entry">
+              <p class="role">Lovora</p>
+              <p class="meta">Freelance — 2024</p>
+              <p class="desc">Worked with Lovora, a lifestyle brand focused on launching inclusive activewear with a strong emphasis on modest fashion. Created detailed tech sheets and CAD drawings to support product development.</p>
+            </div>
+
+            <div class="cv-entry">
+              <p class="role">SA Bullion</p>
+              <p class="meta">Freelance Styling — 2024</p>
+              <p class="desc">Styling for corporate photography.</p>
+            </div>
+
+            <div class="cv-entry">
+              <p class="role">Sinchui</p>
+              <p class="meta">Internship — 2023–2024</p>
+              <p class="desc">Fashion Designer Assistant contributing to material, fabric and accessory research for South African Fashion Week (SAFW). Identified industry trends, sourced new suppliers and managed administrative duties including email correspondence, documentation and invoices. Supported pattern-making and cutting.</p>
+            </div>
+
+            <div class="cv-entry">
+              <p class="role">Louise Steyler</p>
+              <p class="meta">Internship — 2023</p>
+              <p class="desc">Assisted on a Wellington advertising campaign, gaining hands-on experience in the full styling process — sourcing, collaborating with agencies, coordinating with models, managing call times and on-set styling.</p>
+            </div>
+
+            <div class="cv-entry">
+              <p class="role">Water Dixon</p>
+              <p class="meta">Freelance — 2020</p>
+              <p class="desc">Collaborated on the "Equanimity" exhibition — creating sculptures, curating artworks and setting up the show. Developed skills in space arrangement, narrative flow and project management.</p>
+            </div>
+
+            <div class="cv-entry">
+              <p class="role">SA Bullion</p>
+              <p class="meta">Administrative Assistant — 2020</p>
+              <p class="desc">Handled day-to-day admin tasks, client communications and information management.</p>
+            </div>
+
+            <div class="cv-entry">
+              <p class="role">Woolworths</p>
+              <p class="meta">High School Internship — 2018</p>
+              <p class="desc">Two-week internship gaining insight into design skills for mass production, marketing strategies and the dynamics of the South African retail market.</p>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ CONTACT ══ -->
+  <div id="view-contact" class="view">
+    <div class="contact-wrap">
+      <div class="contact-text">
+        <h1>Let's create<br>something.</h1>
+        <p class="contact-lede">Open to collaborations, commissions, and conversations.<br>Find me below.</p>
+        <div class="contact-links">
+          <a class="c-link" href="mailto:imanobrien@gmail.com">
+            <span class="c-label">Email</span>
+            <span class="c-val">imanobrien@gmail.com</span>
+          </a>
+          <a class="c-link" href="https://www.instagram.com/imanobrien_" target="_blank">
+            <span class="c-label">Instagram</span>
+            <span class="c-val">@imanobrien_</span>
+          </a>
+          <a class="c-link" href="https://www.linkedin.com/in/iman-o-brien/" target="_blank">
+            <span class="c-label">LinkedIn</span>
+            <span class="c-val">iman-o-brien</span>
+          </a>
+          <a class="c-link" href="tel:+27780236356">
+            <span class="c-label">Phone</span>
+            <span class="c-val">078 023 6356</span>
+          </a>
+        </div>
+      </div>
+      <div class="contact-photo">
+        <img src="images/iman-portrait.jpg" alt="Iman Sophia O'Brien" />
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <span>Iman Sophia O'Brien</span>
+    <span>&copy; 2025 — All rights reserved</span>
+  </footer>
+
+</div>
+
+<style>
+  .project-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    background: var(--bg);
+    overflow-y: auto;
+  }
+  .project-overlay.open { display: block; }
+  .overlay-nav {
+    position: sticky;
+    top: 0;
+    background: var(--bg);
+    border-bottom: 1px solid var(--rule);
+    padding: 1.2rem 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .overlay-back {
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-mid);
+    cursor: pointer;
+    border: none;
+    background: none;
+    padding: 0;
+    transition: color 0.2s;
+  }
+  .overlay-back:hover { color: var(--ink); }
+  .overlay-title {
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+  }
+  .project-inner {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 4rem 3rem 6rem;
+  }
+  .project-header { margin-bottom: 3rem; }
+  .project-header h1 {
+    font-family: var(--serif);
+    font-size: clamp(2.2rem, 4vw, 3.2rem);
+    font-weight: 300;
+    font-style: italic;
+    margin-bottom: 0.5rem;
+  }
+  .project-meta {
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-mid);
+  }
+  .project-desc {
+    font-family: var(--serif);
+    font-size: 1.05rem;
+    font-weight: 300;
+    line-height: 1.8;
+    color: var(--ink-mid);
+    max-width: 580px;
+    margin: 1.5rem 0 3rem;
+  }
+  .project-images {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    margin-bottom: 4rem;
+  }
+  .project-images img {
+    width: 100%;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+  }
+  .project-images img.wide {
+    grid-column: span 2;
+    aspect-ratio: 16/9;
+  }
+  .colour-story {
+    border-top: 1px solid var(--rule);
+    padding-top: 3rem;
+  }
+  .colour-story-label {
+    font-family: var(--mono);
+    font-size: 0.58rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    margin-bottom: 2rem;
+  }
+  .swatches {
+    display: flex;
+    gap: 1.2rem;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .swatch {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+  }
+  .swatch-note {
+    font-family: var(--serif);
+    font-size: 0.95rem;
+    font-style: italic;
+    color: var(--ink-light);
+    margin-left: 0.8rem;
+  }
+</style>
+
+<!-- PROJECT OVERLAY: EQUANIMITY -->
+<div id="project-equanimity" class="project-overlay">
+  <div class="overlay-nav">
+    <button class="overlay-back" onclick="closeProject()">← Back to work</button>
+    <span class="overlay-title">Water Dixon — 2020</span>
+  </div>
+  <div class="project-inner">
+    <div class="project-header">
+      <h1>Equanimity</h1>
+      <p class="project-meta">Water Dixon &nbsp;/&nbsp; Installation &nbsp;/&nbsp; 2020</p>
+      <p class="project-desc">Collaborated with Water Dixon to create a large-scale suspended sculpture for the "Equanimity" exhibition. Worked as part of a team to construct the installation using chicken wire mesh and hanging crystal drops — learning the full process from material selection to spatial arrangement and final set-up of the show.</p>
+    </div>
+    <div class="project-images">
+      <img src="images/equanimity-cover.jpg" alt="Equanimity full installation" class="wide" />
+      <img src="images/equanimity-making.jpg" alt="Installing the sculpture" />
+      <img src="images/equanimity-detail.jpg" alt="Crystal detail close up" />
+    </div>
+    <div class="colour-story">
+      <p class="colour-story-label">A colour story</p>
+      <div class="swatches">
+        <div class="swatch" style="background:#F0EFED;border:1px solid #CAC4B8;"></div>
+        <div class="swatch" style="background:#8C8C8C;"></div>
+        <div class="swatch" style="background:#A8C4D0;"></div>
+        <div class="swatch" style="background:#0A0A0A;"></div>
+        <div class="swatch" style="background:#3A3A3A;"></div>
+        <div class="swatch" style="background:#E2E0DB;border:1px solid #CAC4B8;"></div>
+        <span class="swatch-note">Curated with beauty and intent</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function show(name) {
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+    document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+    document.getElementById('view-' + name).classList.add('active');
+    document.getElementById('nav-' + name).classList.add('active');
+    window.scrollTo(0, 0);
+    return false;
+  }
+  function openProject(id) {
+    document.getElementById('project-' + id).classList.add('open');
+    window.scrollTo(0, 0);
+  }
+  function closeProject() {
+    document.querySelectorAll('.project-overlay').forEach(o => o.classList.remove('open'));
+    window.scrollTo(0, 0);
+  }
+</script>
+</body>
+</html>
+<!-- PROJECT OVERLAY: AKAR -->
+<style>
+  .flipbook-wrap {
+    background: #F0EDE6;
+    border: 1px solid var(--rule);
+    margin-bottom: 4rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem 2rem 1.5rem;
+  }
+  .flipbook-wrap img {
+    width: 100%;
+    max-width: 640px;
+    aspect-ratio: 1/1;
+    object-fit: contain;
+    display: block;
+    transition: opacity 0.2s;
+  }
+  .flipbook-controls {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    margin-top: 1.2rem;
+  }
+  .flip-btn {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #1C1A17;
+    background: none;
+    border: 1px solid #CAC4B8;
+    padding: 0.5rem 1.2rem;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+  }
+  .flip-btn:hover { background: #1C1A17; color: #E8E4DC; }
+  .flip-counter {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    color: #B5AFA4;
+    min-width: 60px;
+    text-align: center;
+  }
+  .flip-hint {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.1em;
+    color: #B5AFA4;
+    margin-top: 0.6rem;
+    text-transform: uppercase;
+  }
+</style>
+
+<div id="project-akar" class="project-overlay">
+  <div class="overlay-nav">
+    <button class="overlay-back" onclick="closeProject()">← Back to work</button>
+    <span class="overlay-title">Graduate Collection — 2023</span>
+  </div>
+  <div class="project-inner">
+    <div class="project-header">
+      <h1>Akar</h1>
+      <p class="project-meta">Graduate Collection &nbsp;/&nbsp; Design Academy of Fashion &nbsp;/&nbsp; 2023</p>
+      <p class="project-desc">Akar — meaning "roots" in Malay — is a graduate collection inspired by heritage, identity and the stories passed down through generations. Each piece draws from the textures, colours and silhouettes of the cultures that shaped me, translated into wearable garments that honour where I come from.</p>
+    </div>
+
+    <div class="storyboard-section">
+      <p class="storyboard-label">Collection Storyboard</p>
+      <div class="storyboard-grid">
+        <div class="sb-card"><img src="images/akar/grad-shoot/shoot-01.jpg" alt="Akar graduate collection look" /></div>
+        <div class="sb-card"><img src="images/akar/grad-shoot/shoot-04.jpg" alt="Akar graduate collection look" /></div>
+        <div class="sb-card"><img src="images/akar/grad-shoot/shoot-06.jpg" alt="Akar graduate collection look" /></div>
+        <div class="sb-card"><img src="images/akar/grad-shoot/shoot-05.jpg" alt="Akar graduate collection look" /></div>
+        <div class="sb-card label-card">
+          <h3>Akar</h3>
+          <p>Graduate Collection<br/>2023</p>
+        </div>
+        <div class="sb-card"><img src="images/akar/grad-shoot/shoot-07.jpg" alt="Akar graduate collection detail" /></div>
+        <div class="sb-card"><img src="images/akar/grad-shoot/shoot-02.jpg" alt="Akar shoot behind the scenes" /></div>
+        <div class="sb-card"><img src="images/akar/grad-shoot/shoot-03.jpg" alt="Akar full collection" /></div>
+      </div>
+    </div>
+
+    <div class="storyboard-section">
+      <p class="storyboard-label">Collection Film</p>
+      <div class="video-frame">
+        <iframe src="https://www.youtube.com/embed/HRzjrkhG4X4?rel=0" title="Akar — Collection Film" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+      </div>
+      <p class="flip-hint" style="margin-top:0.8rem;"><a href="https://www.youtube.com/watch?v=HRzjrkhG4X4" target="_blank" rel="noopener" style="color:inherit;">Watch on YouTube →</a></p>
+    </div>
+
+    <div class="flipbook-wrap">
+      <img id="akar-img" src="images/akar/page-01.jpg" alt="Akar portfolio page 1" />
+      <div class="flipbook-controls">
+        <button id="akar-prev" class="flip-btn" onclick="akarGo(-1)" style="opacity:0.25;">← Prev</button>
+        <span id="akar-counter" class="flip-counter">1 / 44</span>
+        <button id="akar-next" class="flip-btn" onclick="akarGo(1)">Next →</button>
+      </div>
+      <p class="flip-hint">Use arrow keys or buttons to flip through</p>
+    </div>
+    <div class="colour-story">
+      <p class="colour-story-label">A colour story</p>
+      <div class="palette-circles">
+        <div class="palette-dot" style="background:#C8211A;"></div>
+        <div class="palette-dot" style="background:#E84A12;"></div>
+        <div class="palette-dot" style="background:#6E9470;"></div>
+        <div class="palette-dot" style="background:#0A1240;"></div>
+        <div class="palette-dot" style="background:#132010;"></div>
+        <div class="palette-dot" style="background:#6FA4B8;"></div>
+        <div class="palette-dot" style="background:#D0CECC; border:1px solid #CAC4B8;"></div>
+        <div class="palette-dot" style="background:#404040;"></div>
+        <div class="palette-dot" style="background:#5C3030;"></div>
+        <div class="palette-dot" style="background:#3C1808;"></div>
+        <div class="palette-dot" style="background:#D4B896; border:1px solid #CAC4B8;"></div>
+        <div class="palette-dot" style="background:#8C6B50;"></div>
+        <div class="palette-dot" style="background:#A85878;"></div>
+        <div class="palette-dot" style="background:#C08090;"></div>
+        <div class="palette-dot" style="background:#EAE0D0; border:1px solid #CAC4B8;"></div>
+        <span class="swatch-note">Curated with beauty and intent</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const akarPages = ['images/akar/page-01.jpg','images/akar/page-02.jpg','images/akar/page-03.jpg','images/akar/page-04.jpg','images/akar/page-05.jpg','images/akar/page-06.jpg','images/akar/page-07.jpg','images/akar/page-08.jpg','images/akar/page-09.jpg','images/akar/page-10.jpg','images/akar/page-11.jpg','images/akar/page-12.jpg','images/akar/page-13.jpg','images/akar/page-14.jpg','images/akar/page-15.jpg','images/akar/page-16.jpg','images/akar/page-17.jpg','images/akar/page-18.jpg','images/akar/page-19.jpg','images/akar/page-20.jpg','images/akar/page-21.jpg','images/akar/page-22.jpg','images/akar/page-23.jpg','images/akar/page-24.jpg','images/akar/page-25.jpg','images/akar/page-26.jpg','images/akar/page-27.jpg','images/akar/page-28.jpg','images/akar/page-29.jpg','images/akar/page-30.jpg','images/akar/page-31.jpg','images/akar/page-32.jpg','images/akar/page-33.jpg','images/akar/page-34.jpg','images/akar/page-35.jpg','images/akar/page-36.jpg','images/akar/page-37.jpg','images/akar/page-38.jpg','images/akar/page-39.jpg','images/akar/page-40.jpg','images/akar/page-41.jpg','images/akar/page-42.jpg','images/akar/page-43.jpg','images/akar/page-44.jpg'];
+  let akarCurrent = 0;
+  function akarGo(dir) {
+    akarCurrent = Math.max(0, Math.min(akarPages.length - 1, akarCurrent + dir));
+    document.getElementById('akar-img').src = akarPages[akarCurrent];
+    document.getElementById('akar-counter').textContent = (akarCurrent + 1) + ' / ' + akarPages.length;
+    document.getElementById('akar-prev').style.opacity = akarCurrent === 0 ? '0.25' : '1';
+    document.getElementById('akar-next').style.opacity = akarCurrent === akarPages.length - 1 ? '0.25' : '1';
+  }
+  document.addEventListener('keydown', function(e) {
+    if (!document.getElementById('project-akar').classList.contains('open')) return;
+    if (e.key === 'ArrowRight') akarGo(1);
+    if (e.key === 'ArrowLeft') akarGo(-1);
+  });
+</script>
+<style>
+  .storyboard-section {
+    margin-top: 4rem;
+    border-top: 1px solid var(--rule);
+    padding-top: 3rem;
+  }
+  .storyboard-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #B5AFA4;
+    margin-bottom: 1.8rem;
+  }
+  .storyboard-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+    background: #EAE6DE;
+    padding: 2rem;
+    position: relative;
+  }
+  .sb-card {
+    position: relative;
+    background: #F2EEE6;
+    padding: 6px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  }
+  .sb-card img {
+    width: 100%;
+    aspect-ratio: 3/4;
+    object-fit: cover;
+    display: block;
+  }
+  .sb-card.label-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 3/4;
+    background: #E0DDD4;
+    padding: 1.5rem;
+    text-align: center;
+  }
+  .sb-card.label-card h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.6rem;
+    font-weight: 300;
+    font-style: italic;
+    color: #1C1A17;
+    opacity: 0.75;
+    margin-bottom: 0.4rem;
+  }
+  .sb-card.label-card p {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.5rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #1C1A17;
+    opacity: 0.4;
+    line-height: 1.8;
+  }
+  .pin {
+    position: absolute;
+    top: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #D4C8B0;
+    border: 1px solid #B8AA96;
+    z-index: 2;
+  }
+  .pin::after {
+    content: '';
+    position: absolute;
+    top: 3px; left: 3px;
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: #C4B898;
+  }
+  .shoot-colour-story {
+    border-top: 1px solid var(--rule);
+    padding-top: 3rem;
+    margin-top: 4rem;
+  }
+  .video-frame {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%;
+    height: 0;
+    overflow: hidden;
+    background: #1C1A17;
+    border: 1px solid var(--rule);
+  }
+  .video-frame iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+</style>
+<style>
+  .brand-slides {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+  .brand-slide {
+    width: 100%;
+    display: block;
+    border: 1px solid var(--rule);
+  }
+  .palette-circles {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 1rem;
+  }
+  .palette-dot {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+</style>
+
+<!-- PROJECT OVERLAY: IMAN SOPHIA BRAND -->
+<div id="project-iman-sophia-brand" class="project-overlay">
+  <div class="overlay-nav">
+    <button class="overlay-back" onclick="closeProject()">← Back to work</button>
+    <span class="overlay-title">Graduate Collection Part Two — 2023</span>
+  </div>
+  <div class="project-inner">
+
+    <div class="project-header">
+      <h1>Iman Sophia Brand</h1>
+      <p class="project-meta">Graduate Collection Part Two &nbsp;/&nbsp; Styling &amp; Art Direction &nbsp;/&nbsp; 2023</p>
+      <p class="project-desc">The second part of my graduate collection — a minimal brand identity and shoot exploring the raw beauty of women at different stages of life. Stripped back to presence, skin and stillness, shot on film in white and neutral tones. Alongside the shoot, a full brand world was developed: personality, values, colour palette and silhouette direction.</p>
+    </div>
+
+    <!-- BRAND BOARDS -->
+    <div class="storyboard-section">
+      <p class="storyboard-label">Brand Moodboard</p>
+      <div class="brand-slides">
+        <img src="images/iman-sophia-brand/brand-moodboard.png" alt="Brand Moodboard" class="brand-slide" />
+      </div>
+    </div>
+
+    <div class="storyboard-section">
+      <p class="storyboard-label">Brand Personality &amp; Values</p>
+      <div class="brand-slides">
+        <img src="images/iman-sophia-brand/brand-personality.png" alt="Brand Personality" class="brand-slide" />
+        <img src="images/iman-sophia-brand/brand-values.png" alt="Brand Values" class="brand-slide" />
+      </div>
+    </div>
+
+    <div class="storyboard-section">
+      <p class="storyboard-label">Silhouettes &amp; Colour Palette</p>
+      <div class="brand-slides">
+        <img src="images/iman-sophia-brand/silhouettes.png" alt="Micro Trends — Silhouettes" class="brand-slide" />
+        <img src="images/iman-sophia-brand/colour-palette-2.png" alt="Colour Palette" class="brand-slide" />
+        <img src="images/iman-sophia-brand/colour-palette-1.png" alt="Colour Palette Bar" class="brand-slide" />
+      </div>
+    </div>
+
+    <!-- EDITORIAL STORYBOARD -->
+    <div class="storyboard-section">
+      <p class="storyboard-label">Editorial Storyboard</p>
+      <div class="storyboard-grid">
+        <div class="sb-card"><img src="images/iman-sophia-brand/shoot-01.jpg" alt="" /></div>
+        <div class="sb-card"><img src="images/iman-sophia-brand/shoot-10.jpg" alt="" /></div>
+        <div class="sb-card"><img src="images/iman-sophia-brand/shoot-02.jpg" alt="" /></div>
+        <div class="sb-card"><img src="images/iman-sophia-brand/shoot-05.jpg" alt="" /></div>
+        <div class="sb-card label-card">
+          <h3>Iman<br>Sophia</h3>
+          <p>Brand Shoot<br/>2023</p>
+        </div>
+        <div class="sb-card"><img src="images/iman-sophia-brand/shoot-06.jpg" alt="" /></div>
+        <div class="sb-card"><img src="images/iman-sophia-brand/shoot-07.jpg" alt="" /></div>
+        <div class="sb-card"><img src="images/iman-sophia-brand/shoot-11.jpg" alt="" /></div>
+        <div class="sb-card"><img src="images/iman-sophia-brand/shoot-13.jpg" alt="" /></div>
+      </div>
+    </div>
+
+    <!-- FULL SERIES -->
+    <div class="storyboard-section">
+      <p class="storyboard-label">Full Series</p>
+      <div class="project-images">
+        <img src="images/iman-sophia-brand/shoot-03.jpg" alt="" class="wide" />
+        <img src="images/iman-sophia-brand/shoot-04.jpg" alt="" />
+        <img src="images/iman-sophia-brand/shoot-08.jpg" alt="" />
+        <img src="images/iman-sophia-brand/shoot-09.jpg" alt="" />
+        <img src="images/iman-sophia-brand/shoot-12.jpg" alt="" />
+        <img src="images/iman-sophia-brand/shoot-13.jpg" alt="" />
+      </div>
+    </div>
+
+    <!-- COLOUR STORY -->
+    <div class="colour-story">
+      <p class="colour-story-label">A colour story</p>
+      <div class="palette-circles">
+        <div class="palette-dot" style="background:#F5F3F0;border:1px solid #CAC4B8;"></div>
+        <div class="palette-dot" style="background:#E8E4DC;border:1px solid #CAC4B8;"></div>
+        <div class="palette-dot" style="background:#C8BFB0;border:1px solid #CAC4B8;"></div>
+        <div class="palette-dot" style="background:#B8A898;"></div>
+        <div class="palette-dot" style="background:#C4952A;"></div>
+        <div class="palette-dot" style="background:#1A1410;"></div>
+        <span class="swatch-note">Curated with beauty and intent</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+<!-- PROJECT OVERLAY: LOUISE STEYLER -->
+<style>
+  .video-links { display: flex; flex-direction: column; gap: 12px; margin-bottom: 3rem; }
+  .video-link-btn {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.4rem;
+    border: 1px solid var(--rule);
+    background: var(--bg-card);
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink);
+    text-decoration: none;
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .video-link-btn:hover { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+  .video-link-btn .vl-label { color: var(--ink-light); font-size: 0.58rem; letter-spacing: 0.14em; }
+  .video-link-btn:hover .vl-label { color: var(--bg); opacity: 0.6; }
+  .video-arrow { margin-left: auto; font-size: 0.8rem; }
+</style>
+
+<div id="project-louise-steyler" class="project-overlay">
+  <div class="overlay-nav">
+    <button class="overlay-back" onclick="closeProject()">← Back to work</button>
+    <span class="overlay-title">Louise Steyler — 2023</span>
+  </div>
+  <div class="project-inner">
+
+    <div class="project-header">
+      <h1>Meet the Wellingtons</h1>
+      <p class="project-meta">Louise Steyler &nbsp;/&nbsp; Styling &nbsp;/&nbsp; 2023</p>
+      <p class="project-desc">Styling work for Louise Steyler's "Meet the Wellingtons" Wellington's advertising campaign. Gained hands-on experience in the full styling process — sourcing garments, collaborating with agencies, coordinating with models, managing call times and supporting on-set styling throughout the shoot.</p>
+    </div>
+
+    <!-- WATCH THE CAMPAIGN -->
+    <div class="storyboard-section">
+      <p class="storyboard-label">Watch the campaign</p>
+      <div class="video-links">
+        <a class="video-link-btn" href="https://www.instagram.com/reel/CwSSfHsoyy8/?igsh=MWo1ODJ1ODM5OHBiaw==" target="_blank">
+          <span class="vl-label">Instagram Reel 01 &nbsp;—</span>
+          <span>Meet the Wellingtons</span>
+          <span class="video-arrow">↗</span>
+        </a>
+        <a class="video-link-btn" href="https://www.instagram.com/reel/CvEzvArIKNE/" target="_blank">
+          <span class="vl-label">Instagram Reel 02 &nbsp;—</span>
+          <span>Meet the Wellingtons</span>
+          <span class="video-arrow">↗</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- STYLING MOODBOARD -->
+    <div class="storyboard-section">
+      <p class="storyboard-label">Styling Moodboard — Date Guy</p>
+      <div class="brand-slides">
+        <img src="images/louise-steyler/moodboard-01.jpg" alt="Date Guy Styling Moodboard" class="brand-slide" />
+      </div>
+    </div>
+
+    <!-- COLOUR STORY -->
+    <div class="colour-story" style="margin-top: 3rem;">
+      <p class="colour-story-label">A colour story</p>
+      <div class="palette-circles">
+        <div class="palette-dot" style="background:#B8721A;"></div>
+        <div class="palette-dot" style="background:#B82020;"></div>
+        <div class="palette-dot" style="background:#1E4A28;"></div>
+        <div class="palette-dot" style="background:#8B4A14;"></div>
+        <div class="palette-dot" style="background:#6A8AAA;"></div>
+        <div class="palette-dot" style="background:#6B7B3A;"></div>
+        <div class="palette-dot" style="background:#C4A85A;"></div>
+        <div class="palette-dot" style="background:#F5F2EE;border:1px solid #CAC4B8;"></div>
+        <span class="swatch-note">Curated with beauty and intent</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- PROJECT OVERLAY: SA BULLION -->
+<style>
+  .sa-flipbook-wrap {
+    background: #F0EDE6;
+    border: 1px solid var(--rule);
+    margin-bottom: 4rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem 2rem 1.5rem;
+  }
+  .sa-flipbook-wrap img {
+    width: 100%;
+    max-width: 560px;
+    max-height: 680px;
+    object-fit: contain;
+    display: block;
+    transition: opacity 0.15s;
+  }
+</style>
+
+<div id="project-sa-bullion" class="project-overlay">
+  <div class="overlay-nav">
+    <button class="overlay-back" onclick="closeProject()">← Back to work</button>
+    <span class="overlay-title">SA Bullion — 2024</span>
+  </div>
+  <div class="project-inner">
+
+    <div class="project-header">
+      <h1>SA Bullion</h1>
+      <p class="project-meta">Styling &amp; Shoot Direction &nbsp;/&nbsp; Corporate Photography &nbsp;/&nbsp; 2024</p>
+      <p class="project-desc">Styling and shoot direction for SA Bullion's corporate photography — clean, confident, and minimal using white and black tees as the foundation. Each portrait and group shot was styled to reflect the personality and professionalism of the team.</p>
+    </div>
+
+    <!-- FLIPBOOK -->
+    <div class="storyboard-section">
+      <p class="storyboard-label">Browse the shoot</p>
+      <div class="sa-flipbook-wrap">
+        <img id="sa-img" src="images/sa-bullion/shoot-01.jpg" alt="SA Bullion shoot" />
+        <div class="flipbook-controls">
+          <button id="sa-prev" class="flip-btn" onclick="saGo(-1)" style="opacity:0.25;">← Prev</button>
+          <span id="sa-counter" class="flip-counter">1 / 15</span>
+          <button id="sa-next" class="flip-btn" onclick="saGo(1)">Next →</button>
+        </div>
+        <p class="flip-hint">Use arrow keys or buttons to browse</p>
+      </div>
+    </div>
+
+    <!-- STORYBOARD GRID -->
+    <div class="storyboard-section">
+      <p class="storyboard-label">Editorial Storyboard</p>
+      <div class="storyboard-grid">
+        <div class="sb-card"><img src="images/sa-bullion/shoot-01.jpg" alt="" /></div>
+        <div class="sb-card"><img src="images/sa-bullion/shoot-05.jpg" alt="" /></div>
+        <div class="sb-card"><img src="images/sa-bullion/shoot-06.jpg" alt="" /></div>
+        <div class="sb-card"><img src="images/sa-bullion/shoot-08.jpg" alt="" /></div>
+        <div class="sb-card label-card">
+          <h3>SA<br>Bullion</h3>
+          <p>Corporate Styling<br/>2024</p>
+        </div>
+        <div class="sb-card"><img src="images/sa-bullion/shoot-09.jpg" alt="" /></div>
+        <div class="sb-card"><img src="images/sa-bullion/shoot-11.jpg" alt="" /></div>
+        <div class="sb-card"><img src="images/sa-bullion/shoot-13.jpg" alt="" /></div>
+        <div class="sb-card"><img src="images/sa-bullion/shoot-16.jpg" alt="" /></div>
+      </div>
+    </div>
+
+    <!-- COLOUR STORY -->
+    <div class="colour-story">
+      <p class="colour-story-label">A colour story</p>
+      <div class="palette-circles">
+        <div class="palette-dot" style="background:#F5F3F0;border:1px solid #CAC4B8;"></div>
+        <div class="palette-dot" style="background:#E0DCDA;border:1px solid #CAC4B8;"></div>
+        <div class="palette-dot" style="background:#A8A4A0;"></div>
+        <div class="palette-dot" style="background:#605C58;"></div>
+        <div class="palette-dot" style="background:#2A2826;"></div>
+        <div class="palette-dot" style="background:#0A0A08;"></div>
+        <span class="swatch-note">Curated with beauty and intent</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  const saPages = ['images/sa-bullion/shoot-01.jpg','images/sa-bullion/shoot-02.jpg','images/sa-bullion/shoot-03.jpg','images/sa-bullion/shoot-04.jpg','images/sa-bullion/shoot-05.jpg','images/sa-bullion/shoot-06.jpg','images/sa-bullion/shoot-07.jpg','images/sa-bullion/shoot-08.jpg','images/sa-bullion/shoot-09.jpg','images/sa-bullion/shoot-10.jpg','images/sa-bullion/shoot-11.jpg','images/sa-bullion/shoot-12.jpg','images/sa-bullion/shoot-13.jpg','images/sa-bullion/shoot-14.jpg','images/sa-bullion/shoot-15.jpg','images/sa-bullion/shoot-16.jpg'];
+  let saCurrent = 0;
+  function saGo(dir) {
+    saCurrent = Math.max(0, Math.min(saPages.length - 1, saCurrent + dir));
+    document.getElementById('sa-img').src = saPages[saCurrent];
+    document.getElementById('sa-counter').textContent = (saCurrent + 1) + ' / ' + saPages.length;
+    document.getElementById('sa-prev').style.opacity = saCurrent === 0 ? '0.25' : '1';
+    document.getElementById('sa-next').style.opacity = saCurrent === saPages.length - 1 ? '0.25' : '1';
+  }
+  document.addEventListener('keydown', function(e) {
+    if (!document.getElementById('project-sa-bullion').classList.contains('open')) return;
+    if (e.key === 'ArrowRight') saGo(1);
+    if (e.key === 'ArrowLeft') saGo(-1);
+  });
+</script>
+
+<!-- PROJECT OVERLAY: COOL WORKWEAR -->
+<div id="project-cool-workwear" class="project-overlay">
+  <div class="overlay-nav">
+    <button class="overlay-back" onclick="closeProject()">← Back to work</button>
+    <span class="overlay-title">Cool Workwear — 2025</span>
+  </div>
+  <div class="project-inner">
+
+    <div class="project-header">
+      <h1>Cool Workwear</h1>
+      <p class="project-meta">Design &amp; Production &nbsp;/&nbsp; Technical Packs &amp; CAD &nbsp;/&nbsp; 2025</p>
+      <p class="project-desc">End-to-end design and production work for Cool Workwear — a performance uniform range for the yacht industry. Responsible for CAD illustrations, technical pack creation, pattern development and garment sizing across a full collection including dresses, polo tops, shorts, a jumpsuit, rash guards, and a bodysuit. Collection: Divine Femme.</p>
+    </div>
+
+    <!-- GARMENT DRAWINGS FLIPBOOK -->
+    <div class="storyboard-section">
+      <p class="storyboard-label">CAD Drawings — flip through the collection</p>
+      <div class="sa-flipbook-wrap">
+        <img id="cw-draw-img" src="images/cool-workwear/drawing-01.jpg" alt="Cool Workwear CAD drawing" />
+        <div class="flipbook-controls">
+          <button id="cw-draw-prev" class="flip-btn" onclick="cwDrawGo(-1)" style="opacity:0.25;">← Prev</button>
+          <span id="cw-draw-counter" class="flip-counter">1 / 31</span>
+          <button id="cw-draw-next" class="flip-btn" onclick="cwDrawGo(1)">Next →</button>
+        </div>
+        <p class="flip-hint">Use arrow keys or buttons to browse</p>
+      </div>
+    </div>
+
+    <!-- GARMENT NAMES GRID -->
+    <div class="storyboard-section">
+      <p class="storyboard-label">The Collection</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:1px;margin-bottom:2rem;">
+        <div style="background:var(--bg-card);padding:1.2rem;border:1px solid var(--rule);">
+          <p style="font-family:var(--mono);font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-light);margin-bottom:0.4rem;">01</p>
+          <p style="font-family:var(--serif);font-size:1rem;font-style:italic;font-weight:300;color:var(--ink);">Cruz Polo</p>
+        </div>
+        <div style="background:var(--bg-card);padding:1.2rem;border:1px solid var(--rule);">
+          <p style="font-family:var(--mono);font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-light);margin-bottom:0.4rem;">02</p>
+          <p style="font-family:var(--serif);font-size:1rem;font-style:italic;font-weight:300;color:var(--ink);">Mystique Shorts</p>
+        </div>
+        <div style="background:var(--bg-card);padding:1.2rem;border:1px solid var(--rule);">
+          <p style="font-family:var(--mono);font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-light);margin-bottom:0.4rem;">03</p>
+          <p style="font-family:var(--serif);font-size:1rem;font-style:italic;font-weight:300;color:var(--ink);">Rhythm Dress</p>
+        </div>
+        <div style="background:var(--bg-card);padding:1.2rem;border:1px solid var(--rule);">
+          <p style="font-family:var(--mono);font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-light);margin-bottom:0.4rem;">04</p>
+          <p style="font-family:var(--serif);font-size:1rem;font-style:italic;font-weight:300;color:var(--ink);">Deity Dress</p>
+        </div>
+        <div style="background:var(--bg-card);padding:1.2rem;border:1px solid var(--rule);">
+          <p style="font-family:var(--mono);font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-light);margin-bottom:0.4rem;">05</p>
+          <p style="font-family:var(--serif);font-size:1rem;font-style:italic;font-weight:300;color:var(--ink);">Soleil Dress</p>
+        </div>
+        <div style="background:var(--bg-card);padding:1.2rem;border:1px solid var(--rule);">
+          <p style="font-family:var(--mono);font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-light);margin-bottom:0.4rem;">06</p>
+          <p style="font-family:var(--serif);font-size:1rem;font-style:italic;font-weight:300;color:var(--ink);">Pearl Dress</p>
+        </div>
+        <div style="background:var(--bg-card);padding:1.2rem;border:1px solid var(--rule);">
+          <p style="font-family:var(--mono);font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-light);margin-bottom:0.4rem;">07</p>
+          <p style="font-family:var(--serif);font-size:1rem;font-style:italic;font-weight:300;color:var(--ink);">Feyre Blouse</p>
+        </div>
+        <div style="background:var(--bg-card);padding:1.2rem;border:1px solid var(--rule);">
+          <p style="font-family:var(--mono);font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-light);margin-bottom:0.4rem;">08</p>
+          <p style="font-family:var(--serif);font-size:1rem;font-style:italic;font-weight:300;color:var(--ink);">Dynasty Jumpsuit</p>
+        </div>
+        <div style="background:var(--bg-card);padding:1.2rem;border:1px solid var(--rule);">
+          <p style="font-family:var(--mono);font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-light);margin-bottom:0.4rem;">09</p>
+          <p style="font-family:var(--serif);font-size:1rem;font-style:italic;font-weight:300;color:var(--ink);">Venus Skort</p>
+        </div>
+        <div style="background:var(--bg-card);padding:1.2rem;border:1px solid var(--rule);">
+          <p style="font-family:var(--mono);font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-light);margin-bottom:0.4rem;">10</p>
+          <p style="font-family:var(--serif);font-size:1rem;font-style:italic;font-weight:300;color:var(--ink);">Shimmy Short</p>
+        </div>
+        <div style="background:var(--bg-card);padding:1.2rem;border:1px solid var(--rule);">
+          <p style="font-family:var(--mono);font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-light);margin-bottom:0.4rem;">11</p>
+          <p style="font-family:var(--serif);font-size:1rem;font-style:italic;font-weight:300;color:var(--ink);">Rash Guards</p>
+        </div>
+        <div style="background:var(--bg-card);padding:1.2rem;border:1px solid var(--rule);">
+          <p style="font-family:var(--mono);font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-light);margin-bottom:0.4rem;">12</p>
+          <p style="font-family:var(--serif);font-size:1rem;font-style:italic;font-weight:300;color:var(--ink);">Bodysuit</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- TECH PACK FLIPBOOK -->
+    <div class="storyboard-section">
+      <p class="storyboard-label">Tech Pack — Mystique Shorts (DF001)</p>
+      <div class="sa-flipbook-wrap">
+        <img id="cw-tech-img" src="images/cool-workwear/techpack-1.jpg" alt="Mystique Shorts Tech Pack" />
+        <div class="flipbook-controls">
+          <button id="cw-tech-prev" class="flip-btn" onclick="cwTechGo(-1)" style="opacity:0.25;">← Prev</button>
+          <span id="cw-tech-counter" class="flip-counter">1 / 5</span>
+          <button id="cw-tech-next" class="flip-btn" onclick="cwTechGo(1)">Next →</button>
+        </div>
+        <p class="flip-hint">Use arrow keys or buttons to browse</p>
+      </div>
+    </div>
+
+    <!-- COLOUR STORY -->
+    <div class="colour-story">
+      <p class="colour-story-label">A colour story</p>
+      <div class="palette-circles">
+        <div class="palette-dot" style="background:#F5F3F0;border:1px solid #CAC4B8;"></div>
+        <div class="palette-dot" style="background:#E8E4DC;border:1px solid #CAC4B8;"></div>
+        <div class="palette-dot" style="background:#1A2040;"></div>
+        <div class="palette-dot" style="background:#0A0A08;"></div>
+        <div class="palette-dot" style="background:#A8A4A0;"></div>
+        <div class="palette-dot" style="background:#5A5855;"></div>
+        <span class="swatch-note">Curated with beauty and intent</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  const cwDrawPages = ['images/cool-workwear/drawing-01.jpg','images/cool-workwear/drawing-02.jpg','images/cool-workwear/drawing-03.jpg','images/cool-workwear/drawing-04.jpg','images/cool-workwear/drawing-05.jpg','images/cool-workwear/drawing-06.jpg','images/cool-workwear/drawing-07.jpg','images/cool-workwear/drawing-08.jpg','images/cool-workwear/drawing-09.jpg','images/cool-workwear/drawing-10.jpg','images/cool-workwear/drawing-11.jpg','images/cool-workwear/drawing-12.jpg','images/cool-workwear/drawing-13.jpg','images/cool-workwear/drawing-14.jpg','images/cool-workwear/drawing-15.jpg','images/cool-workwear/drawing-16.jpg','images/cool-workwear/drawing-17.jpg','images/cool-workwear/drawing-18.jpg','images/cool-workwear/drawing-19.jpg','images/cool-workwear/drawing-20.jpg','images/cool-workwear/drawing-21.jpg','images/cool-workwear/drawing-22.jpg','images/cool-workwear/drawing-23.jpg','images/cool-workwear/drawing-24.jpg','images/cool-workwear/drawing-25.jpg','images/cool-workwear/drawing-26.jpg','images/cool-workwear/drawing-27.jpg','images/cool-workwear/drawing-28.jpg','images/cool-workwear/drawing-29.jpg','images/cool-workwear/drawing-30.jpg','images/cool-workwear/drawing-31.jpg'];
+  const cwTechPages = ['images/cool-workwear/techpack-1.jpg','images/cool-workwear/techpack-2.jpg','images/cool-workwear/techpack-3.jpg','images/cool-workwear/techpack-4.jpg','images/cool-workwear/techpack-5.jpg'];
+  let cwDrawCurrent = 0, cwTechCurrent = 0;
+
+  function cwDrawGo(dir) {
+    cwDrawCurrent = Math.max(0, Math.min(cwDrawPages.length - 1, cwDrawCurrent + dir));
+    document.getElementById('cw-draw-img').src = cwDrawPages[cwDrawCurrent];
+    document.getElementById('cw-draw-counter').textContent = (cwDrawCurrent + 1) + ' / ' + cwDrawPages.length;
+    document.getElementById('cw-draw-prev').style.opacity = cwDrawCurrent === 0 ? '0.25' : '1';
+    document.getElementById('cw-draw-next').style.opacity = cwDrawCurrent === cwDrawPages.length - 1 ? '0.25' : '1';
+  }
+
+  function cwTechGo(dir) {
+    cwTechCurrent = Math.max(0, Math.min(cwTechPages.length - 1, cwTechCurrent + dir));
+    document.getElementById('cw-tech-img').src = cwTechPages[cwTechCurrent];
+    document.getElementById('cw-tech-counter').textContent = (cwTechCurrent + 1) + ' / ' + cwTechPages.length;
+    document.getElementById('cw-tech-prev').style.opacity = cwTechCurrent === 0 ? '0.25' : '1';
+    document.getElementById('cw-tech-next').style.opacity = cwTechCurrent === cwTechPages.length - 1 ? '0.25' : '1';
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (!document.getElementById('project-cool-workwear').classList.contains('open')) return;
+    if (e.key === 'ArrowRight') { cwDrawGo(1); cwTechGo(1); }
+    if (e.key === 'ArrowLeft') { cwDrawGo(-1); cwTechGo(-1); }
+  });
+</script>
+
+<!-- PROJECT OVERLAY: MAMI WATA -->
+<div id="project-mami-wata" class="project-overlay">
+  <div class="overlay-nav">
+    <button class="overlay-back" onclick="closeProject()">← Back to work</button>
+    <span class="overlay-title">Mami Wata — Autumn / Winter 2026</span>
+  </div>
+  <div class="project-inner">
+
+    <div class="project-header">
+      <h1>Mami Wata</h1>
+      <p class="project-meta">Product Development &nbsp;/&nbsp; Production &amp; CAD &nbsp;/&nbsp; 2025–2026</p>
+      <p class="project-desc">Mami Wata is an African surf apparel brand based in Cape Town, South Africa. Since launching in 2017, the brand's mission has been to connect the world to the power of African surf culture. Working within the product development team, I contributed to the Autumn/Winter 2026 collection — assisting with trend and colour direction, producing CAD illustrations and technical packs, and developing apparel, accessories and retail concepts.</p>
+    </div>
+
+    <div class="storyboard-section">
+      <p class="storyboard-label">Autumn / Winter 2026 — swipe through the collection</p>
+      <div class="flipbook-wrap">
+        <img id="mw-img" src="images/mami-wata/aw-2.jpg" alt="Mami Wata AW26 collection page" />
+        <div class="flipbook-controls">
+          <button id="mw-prev" class="flip-btn" onclick="mwGo(-1)" style="opacity:0.25;">← Prev</button>
+          <span id="mw-counter" class="flip-counter">1 / 6</span>
+          <button id="mw-next" class="flip-btn" onclick="mwGo(1)">Next →</button>
+        </div>
+        <p class="flip-hint">Use arrow keys or buttons to browse</p>
+      </div>
+    </div>
+
+    <div class="storyboard-section">
+      <p class="storyboard-label">CAD Illustrations — swipe through the line-up</p>
+      <div class="flipbook-wrap">
+        <img id="mwcad-img" src="images/mami-wata/cad-1.jpg" alt="Mami Wata CAD line-up" />
+        <div class="flipbook-controls">
+          <button id="mwcad-prev" class="flip-btn" onclick="mwCadGo(-1)" style="opacity:0.25;">← Prev</button>
+          <span id="mwcad-counter" class="flip-counter">1 / 6</span>
+          <button id="mwcad-next" class="flip-btn" onclick="mwCadGo(1)">Next →</button>
+        </div>
+        <p class="flip-hint">April · May · June · July · August · Accessories</p>
+      </div>
+    </div>
+
+    <div class="storyboard-section">
+      <p class="storyboard-label">Mami Loves You — Tee</p>
+      <div class="storyboard-grid" style="grid-template-columns:repeat(2,1fr);">
+        <div class="sb-card"><img src="images/mami-wata/tee-front.jpg" alt="Mami Loves You tee — front" /></div>
+        <div class="sb-card"><img src="images/mami-wata/tee-back.jpg" alt="Mami Loves You tee — back" /></div>
+      </div>
+    </div>
+
+    <div class="storyboard-section">
+      <p class="storyboard-label">Mami Loves You Tee — Technical Pack</p>
+      <div class="flipbook-wrap">
+        <img id="mwtech-img" src="images/mami-wata/tech-1.jpg" alt="Mami Loves You tee technical pack" />
+        <div class="flipbook-controls">
+          <button id="mwtech-prev" class="flip-btn" onclick="mwTechGo(-1)" style="opacity:0.25;">← Prev</button>
+          <span id="mwtech-counter" class="flip-counter">1 / 8</span>
+          <button id="mwtech-next" class="flip-btn" onclick="mwTechGo(1)">Next →</button>
+        </div>
+        <p class="flip-hint">Construction · trims · print artwork · wash care</p>
+      </div>
+    </div>
+
+    <div class="storyboard-section">
+      <p class="storyboard-label">Backpack — CAD &amp; Colourways</p>
+      <div class="brand-slides">
+        <img src="images/mami-wata/backpacks.jpg" alt="Mami Wata backpack CAD colourways" class="brand-slide" />
+      </div>
+    </div>
+
+    <div class="storyboard-section">
+      <p class="storyboard-label">Retail Concept — Storefront</p>
+      <div class="brand-slides">
+        <img src="images/mami-wata/storefront.jpg" alt="Mami Wata storefront concept" class="brand-slide" />
+      </div>
+    </div>
+
+    <!-- COLOUR STORY -->
+    <div class="colour-story">
+      <p class="colour-story-label">A colour story</p>
+      <div class="palette-circles">
+        <div class="palette-dot" style="background:#7A1518;"></div>
+        <div class="palette-dot" style="background:#C2A05A;"></div>
+        <div class="palette-dot" style="background:#1B2C5A;"></div>
+        <div class="palette-dot" style="background:#1E5535;"></div>
+        <div class="palette-dot" style="background:#B8542A;"></div>
+        <div class="palette-dot" style="background:#0F6E72;"></div>
+        <div class="palette-dot" style="background:#C9BFA8;border:1px solid #CAC4B8;"></div>
+        <div class="palette-dot" style="background:#0A0A08;"></div>
+        <span class="swatch-note">Curated with beauty and intent</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  const mwPages = ['images/mami-wata/aw-2.jpg','images/mami-wata/aw-3.jpg','images/mami-wata/aw-4.jpg','images/mami-wata/aw-5.jpg','images/mami-wata/aw-6.jpg','images/mami-wata/aw-7.jpg'];
+  let mwCurrent = 0;
+  function mwGo(dir) {
+    mwCurrent = Math.max(0, Math.min(mwPages.length - 1, mwCurrent + dir));
+    document.getElementById('mw-img').src = mwPages[mwCurrent];
+    document.getElementById('mw-counter').textContent = (mwCurrent + 1) + ' / ' + mwPages.length;
+    document.getElementById('mw-prev').style.opacity = mwCurrent === 0 ? '0.25' : '1';
+    document.getElementById('mw-next').style.opacity = mwCurrent === mwPages.length - 1 ? '0.25' : '1';
+  }
+  const mwCadPages = ['images/mami-wata/cad-1.jpg','images/mami-wata/cad-2.jpg','images/mami-wata/cad-3.jpg','images/mami-wata/cad-4.jpg','images/mami-wata/cad-5.jpg','images/mami-wata/cad-6.jpg'];
+  let mwCadCurrent = 0;
+  function mwCadGo(dir) {
+    mwCadCurrent = Math.max(0, Math.min(mwCadPages.length - 1, mwCadCurrent + dir));
+    document.getElementById('mwcad-img').src = mwCadPages[mwCadCurrent];
+    document.getElementById('mwcad-counter').textContent = (mwCadCurrent + 1) + ' / ' + mwCadPages.length;
+    document.getElementById('mwcad-prev').style.opacity = mwCadCurrent === 0 ? '0.25' : '1';
+    document.getElementById('mwcad-next').style.opacity = mwCadCurrent === mwCadPages.length - 1 ? '0.25' : '1';
+  }
+  const mwTechPages = ['images/mami-wata/tech-1.jpg','images/mami-wata/tech-2.jpg','images/mami-wata/tech-3.jpg','images/mami-wata/tech-4.jpg','images/mami-wata/tech-5.jpg','images/mami-wata/tech-6.jpg','images/mami-wata/tech-7.jpg','images/mami-wata/tech-8.jpg'];
+  let mwTechCurrent = 0;
+  function mwTechGo(dir) {
+    mwTechCurrent = Math.max(0, Math.min(mwTechPages.length - 1, mwTechCurrent + dir));
+    document.getElementById('mwtech-img').src = mwTechPages[mwTechCurrent];
+    document.getElementById('mwtech-counter').textContent = (mwTechCurrent + 1) + ' / ' + mwTechPages.length;
+    document.getElementById('mwtech-prev').style.opacity = mwTechCurrent === 0 ? '0.25' : '1';
+    document.getElementById('mwtech-next').style.opacity = mwTechCurrent === mwTechPages.length - 1 ? '0.25' : '1';
+  }
+  document.addEventListener('keydown', function(e) {
+    if (!document.getElementById('project-mami-wata').classList.contains('open')) return;
+    if (e.key === 'ArrowRight') { mwGo(1); mwCadGo(1); mwTechGo(1); }
+    if (e.key === 'ArrowLeft') { mwGo(-1); mwCadGo(-1); mwTechGo(-1); }
+  });
+</script>
+
+<!-- PROJECT OVERLAY: NIMA -->
+<div id="project-nima" class="project-overlay">
+  <div class="overlay-nav">
+    <button class="overlay-back" onclick="closeProject()">← Back to work</button>
+    <span class="overlay-title">Nima — 2026</span>
+  </div>
+  <div class="project-inner">
+
+    <div class="project-header">
+      <h1>Nima</h1>
+      <p class="project-meta">Styling &nbsp;/&nbsp; Editorial &amp; Homeware &nbsp;/&nbsp; 2026</p>
+      <p class="project-desc">Nima is a South African natural-luxury brand specialising in homeware, ladieswear and childrenswear. I styled the editorial shoot — working across the kaftan and apparel looks as well as the homeware story: table settings, linen, napkins and the considered details that bring the Nima world to life.</p>
+    </div>
+
+    <div class="storyboard-section">
+      <p class="storyboard-label">Editorial Storyboard</p>
+      <div class="storyboard-grid">
+        <div class="sb-card"><img src="images/nima/shoot-01.jpg" alt="Nima editorial look" /></div>
+        <div class="sb-card"><img src="images/nima/shoot-02.jpg" alt="Nima editorial look" /></div>
+        <div class="sb-card"><img src="images/nima/shoot-04.jpg" alt="Nima editorial look" /></div>
+        <div class="sb-card"><img src="images/nima/shoot-05.jpg" alt="Nima editorial look" /></div>
+        <div class="sb-card label-card">
+          <h3>Nima</h3>
+          <p>Styling &amp; Homeware<br/>2026</p>
+        </div>
+        <div class="sb-card"><img src="images/nima/shoot-06.jpg" alt="Nima editorial look" /></div>
+        <div class="sb-card"><img src="images/nima/shoot-03.jpg" alt="Nima homeware detail" /></div>
+        <div class="sb-card"><img src="images/nima/shoot-07.jpg" alt="Nima table setting" /></div>
+        <div class="sb-card"><img src="images/nima/shoot-08.jpg" alt="Nima homeware detail" /></div>
+        <div class="sb-card"><img src="images/nima/shoot-09.jpg" alt="Nima table linen" /></div>
+      </div>
+    </div>
+
+    <div class="storyboard-section">
+      <p class="storyboard-label">Homeware Catalog</p>
+      <div class="brand-slides">
+        <img src="images/nima/catalog.jpg" alt="Nima homeware catalog" class="brand-slide" />
+      </div>
+    </div>
+
+    <!-- COLOUR STORY -->
+    <div class="colour-story">
+      <p class="colour-story-label">A colour story</p>
+      <div class="palette-circles">
+        <div class="palette-dot" style="background:#8A9A6B;"></div>
+        <div class="palette-dot" style="background:#C3C24A;"></div>
+        <div class="palette-dot" style="background:#3E3228;"></div>
+        <div class="palette-dot" style="background:#E8D9C0;border:1px solid #CAC4B8;"></div>
+        <div class="palette-dot" style="background:#EAC9C2;"></div>
+        <div class="palette-dot" style="background:#9C7A4E;"></div>
+        <div class="palette-dot" style="background:#5C6B4A;"></div>
+        <div class="palette-dot" style="background:#F2EDE2;border:1px solid #CAC4B8;"></div>
+        <span class="swatch-note">Curated with beauty and intent</span>
+      </div>
+    </div>
+
+  </div>
+</div>
