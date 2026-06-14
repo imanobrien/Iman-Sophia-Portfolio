@@ -214,7 +214,7 @@
       font-size: 0.6rem;
       letter-spacing: 0.2em;
       text-transform: uppercase;
-      color: var(--ink-light);
+      color: #4A5320;
       margin-bottom: 1.2rem;
       padding-bottom: 0.5rem;
       border-bottom: 1px solid var(--rule);
@@ -361,6 +361,12 @@
       .project-grid { padding: 0 0 4rem; grid-template-columns: 1fr 1fr; }
       .cv-wrap { padding: 2.5rem 1.5rem 4rem; }
       .cv-cols { grid-template-columns: 1fr; gap: 0; }
+      .project-inner { padding: 2.5rem 1.5rem 4rem; }
+      .storyboard-grid { grid-template-columns: 1fr !important; gap: 10px; padding: 1.2rem; }
+      .project-images { grid-template-columns: 1fr; }
+      .project-images img.wide { grid-column: span 1; }
+      .flipbook-wrap, .sa-flipbook-wrap { padding: 1.2rem 1rem 1rem; }
+      .flipbook-controls { gap: 1rem; }
       footer { padding: 1.2rem 1.5rem; flex-direction: column; gap: 0.4rem; text-align: center; }
     }
   </style>
@@ -450,11 +456,49 @@
   <div id="view-graphic" class="view">
     <div class="work-hero">
       <h1>Graphic<br>Design.</h1>
-      <p>Branding, layout, illustration and visual identity work — a selection of graphic design projects.</p>
+      <p>Branding, layout, illustration and visual identity work — invitations, collection lookbooks and prints.</p>
+      <p style="margin-top:1rem;font-style:italic;color:var(--sage);">All drawings and moodboards shown here are my own work.</p>
     </div>
-    <div class="project-grid" id="graphic-grid">
-      <div class="project-card placeholder">
-        <span>More graphic design work coming soon</span>
+
+    <div class="project-grid">
+      <div class="project-card" onclick="openProject('goldstore')">
+        <img src="graphic-design/goldstore/page-01.jpg" alt="Goldstore Collection" />
+        <div class="card-label">
+          <span class="card-title">Goldstore Collection</span>
+          <span class="card-year">Lookbook</span>
+        </div>
+      </div>
+      <div class="project-card" onclick="openGdImage('reign-invite','Reign Invite')">
+        <img src="graphic-design/invites/reign-invite.jpg" alt="Reign Invite" />
+        <div class="card-label"><span class="card-title">Reign Invite</span></div>
+      </div>
+      <div class="project-card" onclick="openGdImage('shahada-ishaq-wedding','Shahada & Ishaq Wedding')">
+        <img src="graphic-design/invites/shahada-ishaq-wedding.jpg" alt="Shahada & Ishaq Wedding Invite" />
+        <div class="card-label"><span class="card-title">Shahada &amp; Ishaq Wedding</span></div>
+      </div>
+      <div class="project-card" onclick="openGdImage('70th-birthday','70th Birthday')">
+        <img src="graphic-design/invites/70th-birthday.jpg" alt="70th Birthday Invite" />
+        <div class="card-label"><span class="card-title">70th Birthday</span></div>
+      </div>
+      <div class="project-card" onclick="openGdImage('hanims-birthday','Hanim\u0027s Birthday')">
+        <img src="graphic-design/invites/hanims-birthday.jpg" alt="Hanim's Birthday Invite" />
+        <div class="card-label"><span class="card-title">Hanim's Birthday</span></div>
+      </div>
+      <div class="project-card" onclick="openGdImage('iman-nadia-birthday','Iman &amp; Nadia Birthday')">
+        <img src="graphic-design/invites/iman-nadia-birthday.jpg" alt="Iman & Nadia Birthday Invite" />
+        <div class="card-label"><span class="card-title">Iman &amp; Nadia Birthday</span></div>
+      </div>
+      <div class="project-card" onclick="openGdImage('birthday-invite','Birthday Invite')">
+        <img src="graphic-design/invites/birthday-invite.jpg" alt="Birthday Invite" />
+        <div class="card-label"><span class="card-title">Birthday Invite</span></div>
+      </div>
+      <div class="project-card" onclick="openGdImage('fish-braai','Fish Braai')">
+        <img src="graphic-design/invites/fish-braai.jpg" alt="Fish Braai" />
+        <div class="card-label"><span class="card-title">Fish Braai</span></div>
+      </div>
+      <div class="project-card" onclick="openGdImage('print-1','Print','png')">
+        <img src="graphic-design/invites/print-1.png" alt="Print" />
+        <div class="card-label"><span class="card-title">Print</span></div>
       </div>
     </div>
   </div>
@@ -718,7 +762,7 @@
     font-size: 0.58rem;
     letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: var(--ink-light);
+    color: #4A5320;
     margin-bottom: 2rem;
   }
   .swatches {
@@ -968,7 +1012,7 @@
     font-size: 0.58rem;
     letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: #B5AFA4;
+    color: #4A5320;
     margin-bottom: 1.8rem;
   }
   .storyboard-grid {
@@ -1685,3 +1729,68 @@
 
   </div>
 </div>
+
+<!-- PROJECT OVERLAY: GOLDSTORE (flip-through) -->
+<div id="project-goldstore" class="project-overlay">
+  <div class="overlay-nav">
+    <button class="overlay-back" onclick="closeProject()">← Back to graphic design</button>
+    <span class="overlay-title">Goldstore Collection — Lookbook</span>
+  </div>
+  <div class="project-inner">
+    <div class="project-header">
+      <h1>Goldstore Collection</h1>
+      <p class="project-meta">Graphic Design &nbsp;/&nbsp; Collection Lookbook</p>
+      <p class="project-desc">A 17-page collection lookbook — layout, art direction and visual identity. All drawings and moodboards are my own work.</p>
+    </div>
+    <div class="flipbook-wrap">
+      <img id="gold-img" src="graphic-design/goldstore/page-01.jpg" alt="Goldstore lookbook page" style="aspect-ratio:auto;max-height:680px;" />
+      <div class="flipbook-controls">
+        <button id="gold-prev" class="flip-btn" onclick="goldGo(-1)" style="opacity:0.25;">← Prev</button>
+        <span id="gold-counter" class="flip-counter">1 / 17</span>
+        <button id="gold-next" class="flip-btn" onclick="goldGo(1)">Next →</button>
+      </div>
+      <p class="flip-hint">Use arrow keys or buttons to flip through</p>
+    </div>
+  </div>
+</div>
+
+<!-- PROJECT OVERLAY: SINGLE GRAPHIC IMAGE (invites/prints) -->
+<div id="project-gdimage" class="project-overlay">
+  <div class="overlay-nav">
+    <button class="overlay-back" onclick="closeProject()">← Back to graphic design</button>
+    <span class="overlay-title" id="gd-overlay-title">Graphic Design</span>
+  </div>
+  <div class="project-inner">
+    <div class="project-header">
+      <h1 id="gd-img-heading">Graphic Design</h1>
+      <p class="project-meta">Graphic Design &nbsp;/&nbsp; Invitation</p>
+    </div>
+    <div class="flipbook-wrap">
+      <img id="gd-single-img" src="" alt="Graphic design work" style="aspect-ratio:auto;max-height:820px;" />
+    </div>
+  </div>
+</div>
+
+<script>
+  const goldPages = ['graphic-design/goldstore/page-01.jpg','graphic-design/goldstore/page-02.jpg','graphic-design/goldstore/page-03.jpg','graphic-design/goldstore/page-04.jpg','graphic-design/goldstore/page-05.jpg','graphic-design/goldstore/page-06.jpg','graphic-design/goldstore/page-07.jpg','graphic-design/goldstore/page-08.jpg','graphic-design/goldstore/page-09.jpg','graphic-design/goldstore/page-10.jpg','graphic-design/goldstore/page-11.jpg','graphic-design/goldstore/page-12.jpg','graphic-design/goldstore/page-13.jpg','graphic-design/goldstore/page-14.jpg','graphic-design/goldstore/page-15.jpg','graphic-design/goldstore/page-16.jpg','graphic-design/goldstore/page-17.jpg'];
+  let goldCurrent = 0;
+  function goldGo(dir) {
+    goldCurrent = Math.max(0, Math.min(goldPages.length - 1, goldCurrent + dir));
+    document.getElementById('gold-img').src = goldPages[goldCurrent];
+    document.getElementById('gold-counter').textContent = (goldCurrent + 1) + ' / ' + goldPages.length;
+    document.getElementById('gold-prev').style.opacity = goldCurrent === 0 ? '0.25' : '1';
+    document.getElementById('gold-next').style.opacity = goldCurrent === goldPages.length - 1 ? '0.25' : '1';
+  }
+  document.addEventListener('keydown', function(e) {
+    if (!document.getElementById('project-goldstore').classList.contains('open')) return;
+    if (e.key === 'ArrowRight') goldGo(1);
+    if (e.key === 'ArrowLeft') goldGo(-1);
+  });
+  function openGdImage(name, title, ext) {
+    ext = ext || 'jpg';
+    document.getElementById('gd-single-img').src = 'graphic-design/invites/' + name + '.' + ext;
+    document.getElementById('gd-overlay-title').textContent = title;
+    document.getElementById('gd-img-heading').innerHTML = title;
+    openProject('gdimage');
+  }
+</script>
